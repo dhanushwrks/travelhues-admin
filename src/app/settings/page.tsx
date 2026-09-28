@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import {
@@ -17,8 +18,6 @@ export default function SettingsPage() {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState("");
   const [pending, setPending] = useState(false);
-  const [countries, setCountries] = useState<{ code: string; name: string }[]>([]);
-  const [countryQuery, setCountryQuery] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -32,12 +31,6 @@ export default function SettingsPage() {
       .catch((caught: unknown) => {
         if (active) setError(caught instanceof Error ? caught.message : "Could not load settings");
       });
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/countries`)
-      .then((response) => response.json())
-      .then((payload: { code: string; name: string }[]) => {
-        if (active) setCountries(payload);
-      })
-      .catch(() => undefined);
     return () => {
       active = false;
     };
@@ -77,8 +70,8 @@ export default function SettingsPage() {
       <div className="flex items-end justify-between gap-4">
         <div className="grid gap-1">
           <h1 className="text-3xl font-medium tracking-tight">Settings</h1>
-          <p className="max-w-md text-sm text-ink/75">
-            These values are what the traveler app and the API follow.
+          <p className="max-w-md text-sm leading-6 text-ink/75">
+            The name, maps, and whether stories are public. Countries live on their own page.
           </p>
         </div>
         <PrimaryButton type="submit" disabled={pending}>
@@ -128,15 +121,12 @@ export default function SettingsPage() {
             />
           </Field>
         </div>
-        <CountryAccess
-          countries={countries}
-          query={countryQuery}
-          onQuery={setCountryQuery}
-          selected={settings.app.enabledCountries ?? []}
-          onChange={(enabledCountries) =>
-            setSettings({ ...settings, app: { ...settings.app, enabledCountries } })
-          }
-        />
+        <p className="text-sm">
+          <Link href="/countries" className="underline">
+            Countries
+          </Link>{" "}
+          decides where a creator can publish.
+        </p>
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
@@ -176,68 +166,5 @@ export default function SettingsPage() {
       </section>
       <Notice error={error} saved={saved} />
     </form>
-  );
-}
-
-function CountryAccess({
-  countries,
-  query,
-  onQuery,
-  selected,
-  onChange,
-}: {
-  countries: { code: string; name: string }[];
-  query: string;
-  onQuery: (query: string) => void;
-  selected: string[];
-  onChange: (codes: string[]) => void;
-}) {
-  const matches = countries
-    .filter((country) => country.name.toLowerCase().includes(query.trim().toLowerCase()))
-    .filter((country) => !selected.includes(country.code))
-    .slice(0, 6);
-
-  return (
-    <div className="grid gap-2">
-      <Field label="Countries open for search">
-        <input
-          className={controlClass}
-          value={query}
-          placeholder="Search the country list"
-          onChange={(event) => onQuery(event.target.value)}
-        />
-      </Field>
-      {query.trim() && matches.length > 0 ? (
-        <ul className="grid gap-1">
-          {matches.map((country) => (
-            <li key={country.code}>
-              <button
-                type="button"
-                className="text-sm underline"
-                onClick={() => {
-                  onChange([...selected, country.code]);
-                  onQuery("");
-                }}
-              >
-                Add {country.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      <ul className="flex flex-wrap gap-2">
-        {selected.map((code) => (
-          <li key={code}>
-            <button
-              type="button"
-              className="rounded-md bg-mist px-2 py-1 text-sm"
-              onClick={() => onChange(selected.filter((item) => item !== code))}
-            >
-              {countries.find((country) => country.code === code)?.name ?? code} ×
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

@@ -23,7 +23,7 @@ export function PrimaryButton({
   return (
     <button
       {...props}
-      className="rounded-md bg-red px-4 py-2 text-sm text-white disabled:opacity-60"
+      className="rounded-md bg-red px-4 py-2 text-sm whitespace-nowrap text-white disabled:opacity-60"
     >
       {children}
     </button>

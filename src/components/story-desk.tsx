@@ -98,7 +98,7 @@ export function StoryDesk({ slug }: { slug?: string }) {
     setPending(true);
     try {
       await adminApi.deleteStory(slug);
-      router.push("/");
+      router.push("/stories");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Could not delete the story");
       setPending(false);

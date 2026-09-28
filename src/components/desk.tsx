@@ -29,10 +29,12 @@ export function Desk({ children }: { children: React.ReactNode }) {
             priority
           />
         </Link>
-        <nav className="flex flex-1 gap-4 md:mt-8 md:flex-col md:gap-1">
-          <RailLink href="/">Stories</RailLink>
-          <RailLink href="/creators">Creators</RailLink>
+        <nav className="flex flex-1 flex-wrap gap-x-4 gap-y-1 md:mt-8 md:flex-col md:gap-1">
+          <RailLink href="/">Desk</RailLink>
+          <RailLink href="/countries">Countries</RailLink>
+          <RailLink href="/waitlist">Waitlist</RailLink>
           <RailLink href="/settings">Settings</RailLink>
+          <RailLink href="/stories">Stories</RailLink>
         </nav>
         <button
           type="button"
@@ -53,10 +55,7 @@ export function Desk({ children }: { children: React.ReactNode }) {
 
 function RailLink({ href, children }: { href: string; children: string }) {
   const pathname = usePathname();
-  const active =
-    href === "/"
-      ? pathname === "/" || pathname.startsWith("/stories")
-      : pathname.startsWith(href);
+  const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
   return (
     <Link
       href={href}

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     default: "Desk",
     template: "%s · Travelhues desk",
   },
-  description: "Edit Travelhues stories and the settings the app and API follow.",
+  description: "Countries creators can publish in, the join waitlist, and the settings the app follows.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
