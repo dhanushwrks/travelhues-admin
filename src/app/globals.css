@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #12232a;
+  --mist: #d5e3e6;
+  --paper: #f7faf9;
+  --red: #e12e2f;
+  --line: #b7c9ce;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-mist: var(--mist);
+  --color-paper: var(--paper);
+  --color-red: var(--red);
+  --color-line: var(--line);
+  --font-sans: var(--font-sora), sans-serif;
+}
+
+body {
+  background: var(--mist);
+  color: var(--ink);
+  font-family: var(--font-sora), sans-serif;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
