@@ -25,7 +25,7 @@ export default function SettingsPage() {
       .settings()
       .then((next) => {
         if (!active) return;
-        setSettings(next);
+        setSettings(withBrandLinks(next));
         setOrigins(next.api.corsOrigins.join("\n"));
       })
       .catch((caught: unknown) => {
@@ -51,7 +51,7 @@ export default function SettingsPage() {
     };
     try {
       const updated = await adminApi.saveSettings(next);
-      setSettings(updated);
+      setSettings(withBrandLinks(updated));
       setOrigins(updated.api.corsOrigins.join("\n"));
       setSaved("Saved settings");
     } catch (caught) {
@@ -142,6 +142,49 @@ export default function SettingsPage() {
         </label>
       </section>
       <section className="grid gap-4">
+        <h2 className="text-xl">Sign-in links</h2>
+        <p className="max-w-md text-sm leading-6 text-ink/75">
+          LinkedIn, Instagram, YouTube, Terms, and Policies on the sign-in page. Leave a field blank to hide it.
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <BrandField
+            label="LinkedIn"
+            value={settings.app.linkedinUrl}
+            onChange={(linkedinUrl) =>
+              setSettings({ ...settings, app: { ...settings.app, linkedinUrl } })
+            }
+          />
+          <BrandField
+            label="Instagram"
+            value={settings.app.instagramUrl}
+            onChange={(instagramUrl) =>
+              setSettings({ ...settings, app: { ...settings.app, instagramUrl } })
+            }
+          />
+          <BrandField
+            label="YouTube"
+            value={settings.app.youtubeUrl}
+            onChange={(youtubeUrl) =>
+              setSettings({ ...settings, app: { ...settings.app, youtubeUrl } })
+            }
+          />
+          <BrandField
+            label="Terms"
+            value={settings.app.termsUrl}
+            onChange={(termsUrl) =>
+              setSettings({ ...settings, app: { ...settings.app, termsUrl } })
+            }
+          />
+          <BrandField
+            label="Policies"
+            value={settings.app.policiesUrl}
+            onChange={(policiesUrl) =>
+              setSettings({ ...settings, app: { ...settings.app, policiesUrl } })
+            }
+          />
+        </div>
+      </section>
+      <section className="grid gap-4">
         <h2 className="text-xl">API</h2>
         <Field label="Allowed browser origins">
           <textarea
@@ -166,5 +209,51 @@ export default function SettingsPage() {
       </section>
       <Notice error={error} saved={saved} />
     </form>
+  );
+}
+
+const brandLinkDefaults = {
+  instagramUrl: "https://www.instagram.com/travelhues",
+  linkedinUrl: "https://www.linkedin.com/company/travelhues",
+  youtubeUrl: "https://www.youtube.com/@travelhues",
+  termsUrl: "https://travelhues.com/terms",
+  policiesUrl: "https://travelhues.com/policies",
+};
+
+function withBrandLinks(settings: Settings): Settings {
+  const app = settings.app;
+  return {
+    ...settings,
+    app: {
+      ...app,
+      instagramUrl: app.instagramUrl ?? brandLinkDefaults.instagramUrl,
+      linkedinUrl: app.linkedinUrl ?? brandLinkDefaults.linkedinUrl,
+      youtubeUrl: app.youtubeUrl ?? brandLinkDefaults.youtubeUrl,
+      termsUrl: app.termsUrl ?? brandLinkDefaults.termsUrl,
+      policiesUrl: app.policiesUrl ?? brandLinkDefaults.policiesUrl,
+    },
+  };
+}
+
+function BrandField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <Field label={label}>
+      <input
+        className={controlClass}
+        type="url"
+        inputMode="url"
+        value={value}
+        placeholder="https://"
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </Field>
   );
 }
