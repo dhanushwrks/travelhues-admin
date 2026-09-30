@@ -404,7 +404,7 @@ export function StoryDesk({ slug }: { slug?: string }) {
                   onChange={(avgMinutes) => setSpot({ ...spot, avgMinutes })}
                 />
                 <NumberField
-                  label="Cost in THB"
+                  label="Cost in INR"
                   value={spot.avgCostThb}
                   onChange={(avgCostThb) => setSpot({ ...spot, avgCostThb })}
                 />
