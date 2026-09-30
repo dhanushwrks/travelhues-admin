@@ -6,7 +6,18 @@ import { Field, Notice, PrimaryButton, controlClass } from "@/components/fields"
 import { adminApi, apiBase } from "@/lib/api";
 import type { Settings } from "@/lib/types";
 
-type Country = { code: string; name: string };
+type Country = { code: string; name: string; flag?: string };
+
+function countryFlag(code: string) {
+  if (!/^[A-Za-z]{2}$/.test(code)) return "";
+  return [...code.toUpperCase()]
+    .map((char) => String.fromCodePoint(127397 + char.charCodeAt(0)))
+    .join("");
+}
+
+function flagOf(country: Country) {
+  return country.flag || countryFlag(country.code);
+}
 
 export default function CountriesPage() {
   const [settings, setSettings] = useState<Settings | null>(null);
@@ -90,7 +101,7 @@ export default function CountriesPage() {
         <div className="grid gap-1">
           <h1 className="text-3xl font-medium tracking-tight">Countries</h1>
           <p className="max-w-md text-sm leading-6 text-ink/75">
-            Creators can start a story or a glimpse only in a country that is open.
+            Creators can start a story or a short only in a country that is open.
           </p>
         </div>
         <PrimaryButton type="button" onClick={() => void onSave()} disabled={pending || !dirty}>
@@ -106,7 +117,9 @@ export default function CountriesPage() {
           <ul className="divide-y divide-line border-y border-line">
             {openCodes.map((code) => (
               <li key={code} className="flex items-center justify-between gap-4 py-3">
-                <span>{names.get(code) ?? code}</span>
+                <span>
+                  {flagOf({ code, name: names.get(code) ?? code })} {names.get(code) ?? code}
+                </span>
                 <button
                   type="button"
                   className="text-sm text-ink/70"
@@ -146,7 +159,9 @@ export default function CountriesPage() {
                   setQuery("");
                 }}
               >
-                <span>{country.name}</span>
+                <span>
+                  {flagOf(country)} {country.name}
+                </span>
                 <span className="text-sm text-ink/70">Open</span>
               </button>
             </li>

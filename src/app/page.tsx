@@ -63,7 +63,7 @@ export default function DeskHome() {
             <span className="text-sm text-ink/70">
               {open.length === 0
                 ? "Creators cannot publish until a country is open"
-                : "Open for stories and glimpses"}
+                : "Open for stories and shorts"}
             </span>
           </LedgerLink>
           <LedgerLink href="/waitlist" label="Waitlist">
