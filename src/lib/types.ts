@@ -8,6 +8,12 @@ export const spotTypes = [
 
 export type SpotType = (typeof spotTypes)[number];
 
+export type SpotCatalogItem = {
+  slug: string;
+  label: string;
+  kinds: string[];
+};
+
 export type Spot = {
   id: string;
   type: SpotType;

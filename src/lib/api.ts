@@ -3,6 +3,7 @@ import type {
   Itinerary,
   Settings,
   Spot,
+  SpotCatalogItem,
   Story,
   StoryDraft,
   WaitlistRequest,
@@ -137,4 +138,10 @@ export const adminApi = {
     }),
   revokeInvite: (token: string) =>
     api<void>(`/admin/invites/${token}`, { method: "DELETE" }),
+  spotCatalog: () => api<SpotCatalogItem[]>("/admin/spot-catalog"),
+  saveSpotCatalog: (body: SpotCatalogItem[]) =>
+    api<SpotCatalogItem[]>("/admin/spot-catalog", {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
 };

@@ -32,6 +32,7 @@ export function Desk({ children }: { children: React.ReactNode }) {
         <nav className="flex flex-1 flex-wrap gap-x-4 gap-y-1 md:mt-8 md:flex-col md:gap-1">
           <RailLink href="/">Desk</RailLink>
           <RailLink href="/countries">Countries</RailLink>
+          <RailLink href="/categories">Categories</RailLink>
           <RailLink href="/waitlist">Waitlist</RailLink>
           <RailLink href="/settings">Settings</RailLink>
           <RailLink href="/stories">Stories</RailLink>

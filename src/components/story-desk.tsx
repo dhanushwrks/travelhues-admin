@@ -12,7 +12,7 @@ import {
   controlClass,
 } from "@/components/fields";
 import { adminApi } from "@/lib/api";
-import { spotTypes, type Spot, type Story, type StoryDraft } from "@/lib/types";
+import { spotTypes, type Spot, type SpotCatalogItem, type Story, type StoryDraft } from "@/lib/types";
 
 const emptyDraft = (): StoryDraft => ({
   slug: "",
@@ -47,6 +47,22 @@ export function StoryDesk({ slug }: { slug?: string }) {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState("");
   const [pending, setPending] = useState(false);
+  const [catalog, setCatalog] = useState<SpotCatalogItem[]>(
+    spotTypes.map((type) => ({ slug: type, label: type, kinds: [] })),
+  );
+
+  useEffect(() => {
+    let active = true;
+    adminApi
+      .spotCatalog()
+      .then((next) => {
+        if (active && next.length > 0) setCatalog(next);
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!slug) return;
@@ -367,9 +383,9 @@ export function StoryDesk({ slug }: { slug?: string }) {
                       setSpot({ ...spot, type: event.target.value as Spot["type"] })
                     }
                   >
-                    {spotTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
+                    {catalog.map((item) => (
+                      <option key={item.slug} value={item.slug}>
+                        {item.label}
                       </option>
                     ))}
                   </select>
