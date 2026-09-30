@@ -11,7 +11,8 @@ import type {
 
 export const tokenKey = "travelhues-admin-token";
 
-const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+export const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://65.2.235.120.sslip.io";
+const base = apiBase;
 
 export class ApiError extends Error {
   status: number;

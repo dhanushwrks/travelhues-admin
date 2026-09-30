@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Notice, PrimaryButton } from "@/components/fields";
-import { adminApi } from "@/lib/api";
+import { adminApi, apiBase } from "@/lib/api";
 import type { CreatorInvite, WaitlistRequest } from "@/lib/types";
 
 const views = [
@@ -53,7 +53,7 @@ export default function WaitlistPage() {
       .catch((caught: unknown) => {
         if (active) setError(caught instanceof Error ? caught.message : "Could not load the waitlist");
       });
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/countries`)
+    fetch(`${apiBase}/countries`)
       .then((response) => (response.ok ? response.json() : []))
       .then((countries: { code: string; name: string }[]) => {
         if (active) setCountryNames(new Map(countries.map((country) => [country.code, country.name])));

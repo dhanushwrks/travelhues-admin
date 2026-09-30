@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Field, Notice, PrimaryButton, controlClass } from "@/components/fields";
-import { adminApi } from "@/lib/api";
+import { adminApi, apiBase } from "@/lib/api";
 import type { Settings } from "@/lib/types";
 
 type Country = { code: string; name: string };
@@ -22,7 +22,7 @@ export default function CountriesPage() {
     let active = true;
     Promise.all([
       adminApi.settings(),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/countries`).then(
+      fetch(`${apiBase}/countries`).then(
         (response) => {
           if (!response.ok) throw new Error("Could not load countries");
           return response.json() as Promise<Country[]>;

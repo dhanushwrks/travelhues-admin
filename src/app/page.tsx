@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { adminApi } from "@/lib/api";
+import { adminApi, apiBase } from "@/lib/api";
 import type { Settings, Story, WaitlistRequest } from "@/lib/types";
 
 type DeskState = {
@@ -23,7 +23,7 @@ export default function DeskHome() {
       adminApi.settings(),
       adminApi.waitlist(),
       adminApi.stories(),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/countries`).then(
+      fetch(`${apiBase}/countries`).then(
         (response) => {
           if (!response.ok) throw new Error("Could not load countries");
           return response.json() as Promise<{ code: string; name: string }[]>;
