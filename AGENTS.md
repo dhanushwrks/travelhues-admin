@@ -7,3 +7,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Project dictionary (LLM Wiki)
+
+**Before** exploring or implementing non-trivial work, read `wiki/index.md` and related pages (`.cursor/rules/llm-wiki.mdc`). **After** substantive changes, update `wiki/` per `wiki/SCHEMA.md`, `wiki/index.md`, and `wiki/log.md`. Use the **llm-wiki** skill. Immutable inputs live in `raw/`. See `wiki/ecosystem.md` for travelhues-api and travelhues-app.

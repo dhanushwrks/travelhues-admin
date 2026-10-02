@@ -1,6 +1,10 @@
 # travelhues-admin
 
-Desk for editing Travelhues stories and the settings the app and API follow. It talks to the admin routes on travelhues-api.
+Desk for editing Travelhues stories and the settings the app and API follow.
+
+## Project wiki
+
+Dev dictionary: [`wiki/index.md`](wiki/index.md) (schema: [`wiki/SCHEMA.md`](wiki/SCHEMA.md), raw: [`raw/`](raw/)). It talks to the admin routes on travelhues-api.
 
 ## Run
 

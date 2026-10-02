@@ -1,5 +1,8 @@
 import type {
   CreatorInvite,
+  FlightDeal,
+  FlightDealImportResult,
+  FlightDealStorySuggestion,
   Itinerary,
   Settings,
   Spot,
@@ -145,4 +148,35 @@ export const adminApi = {
       method: "PUT",
       body: JSON.stringify(body),
     }),
+  flightDeals: (query?: { origin?: string; status?: string }) => {
+    const params = new URLSearchParams();
+    if (query?.origin) params.set("origin", query.origin);
+    if (query?.status) params.set("status", query.status);
+    const suffix = params.toString() ? `?${params}` : "";
+    return api<FlightDeal[]>(`/admin/flight-deals${suffix}`);
+  },
+  createFlightDeal: (body: Partial<FlightDeal>) =>
+    api<FlightDeal>("/admin/flight-deals", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  updateFlightDeal: (id: string, body: Partial<FlightDeal>) =>
+    api<FlightDeal>(`/admin/flight-deals/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+  archiveFlightDeal: (id: string) =>
+    api<FlightDeal>(`/admin/flight-deals/${id}/archive`, { method: "POST" }),
+  importFlightDeals: (body: { rows?: Record<string, unknown>[]; csv?: string }) =>
+    api<FlightDealImportResult>("/admin/flight-deals/import", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  flightDealSuggestions: (destinationCity: string, country: string) => {
+    const params = new URLSearchParams();
+    if (destinationCity) params.set("destinationCity", destinationCity);
+    if (country) params.set("country", country);
+    const suffix = params.toString() ? `?${params}` : "";
+    return api<FlightDealStorySuggestion[]>(`/admin/flight-deals/story-suggestions${suffix}`);
+  },
 };

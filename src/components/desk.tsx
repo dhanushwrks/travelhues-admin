@@ -36,6 +36,7 @@ export function Desk({ children }: { children: React.ReactNode }) {
           <RailLink href="/waitlist">Waitlist</RailLink>
           <RailLink href="/settings">Settings</RailLink>
           <RailLink href="/stories">Stories</RailLink>
+          <RailLink href="/flight-deals">Flight deals</RailLink>
         </nav>
         <button
           type="button"

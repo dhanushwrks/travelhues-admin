@@ -117,3 +117,49 @@ export type StoryDraft = {
   destination: Destination;
   creator: Creator;
 };
+
+export const flightDealOrigins = ["BLR", "BOM", "HYD", "DEL", "MAA"] as const;
+
+export type FlightDealStatus = "draft" | "published" | "archived";
+
+export type FlightDeal = {
+  id: string;
+  originIata: string;
+  destinationIata: string;
+  destinationCity: string;
+  destinationCountry: string;
+  departureDate: string;
+  returnDate: string;
+  priceInr: number;
+  currency: string;
+  affiliateUrl: string;
+  affiliatePartner: string;
+  headline: string;
+  subtitle: string;
+  badge: string;
+  storyCreatorUsername: string;
+  storySlug: string;
+  featuredItinerarySlug: string;
+  featuredSpotIds: string[];
+  status: FlightDealStatus;
+  validFrom: string;
+  validUntil: string;
+  priority: number;
+  externalId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type FlightDealImportResult = {
+  created: number;
+  updated: number;
+  errors: { row: number; message: string }[];
+};
+
+export type FlightDealStorySuggestion = {
+  storySlug: string;
+  storyCreatorUsername: string;
+  title: string;
+  destination: string;
+  country: string;
+};
